@@ -40,10 +40,25 @@ function App() {
 
   const [activeCharacter, setActiveCharacter] = useState();
 
+  const [pageHeight, setPageHeight] = useState();
+
+  useEffect(() => {
+    setPageHeight(window.innerHeight);
+    window.addEventListener("resize", (e) => {
+      setTimeout(() => {
+        setPageHeight(window.innerHeight);
+      }, 300);
+    });
+  }, []);
+
   if (res.fetching || typeof res.data === "undefined") {
     return <div>Loading...</div>;
   } else {
-    const characters = res.data.characters.results.slice(0, 2);
+    const characters = res.data.characters.results.slice(0, 9);
+    const refs = characters.reduce((refsObj, character) => {
+      refsObj[character.name] = createRef();
+      return refsObj;
+    }, {});
     return (
       <>
         <div className="page-wrapper">
@@ -58,6 +73,8 @@ function App() {
                   activeCharacter={activeCharacter}
                   data={item}
                   setActiveCharacter={setActiveCharacter}
+                  pageHeight={pageHeight}
+                  refs={refs}
                 />
               );
             })}

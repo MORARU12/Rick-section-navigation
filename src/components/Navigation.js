@@ -13,7 +13,7 @@ const Navigation = ({ items, activeCharacter }) => {
     });
   };
 
-  return <ul className="navigation-list">{renderItems}</ul>;
+  return <ul className="navigation-list">{renderItems()}</ul>;
 };
 
 export default Navigation;
